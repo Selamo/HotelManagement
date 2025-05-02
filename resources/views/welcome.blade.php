@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold">🏨 Mr Sal Complex</h1>
             <div>
-                <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-indigo-600 font-medium mx-2">Dashboard</a>
+                <a href="{{ route('admin.admin.dashboard') }}" class="text-gray-700 hover:text-indigo-600 font-medium mx-2">Dashboard</a>
                 <a href="{{ route('rooms.index') }}" class="text-gray-700 hover:text-indigo-600 font-medium mx-2">Rooms</a>
                 <a href="{{ route('bookings.index') }}" class="text-gray-700 hover:text-indigo-600 font-medium mx-2">Bookings</a>
                 <a href="{{ route('payments.index') }}" class="text-gray-700 hover:text-indigo-600 font-medium mx-2">Payments</a>
@@ -44,4 +44,4 @@
 
     @stack('scripts')
 </body>
-</html>  
+</html>

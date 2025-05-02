@@ -9,30 +9,39 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ServiceController;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-// Admin Registration Routes
+Route::get('/dashboard', function(){
+    $user = Auth()->user();
+    if($user->role === 'admin'){
+        return view('dashboard.index');
+    }
+})->middleware('auth');
+
+
 Route::get('/admin/register', [AdminAuthController::class, 'showRegistrationForm'])->name('admin.register');
 Route::post('/admin/register', [AdminAuthController::class, 'register']);
 
   Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('rooms', RoomController::class);
 });
+
 Route::resource('bookings', BookingController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('services', ServiceController::class);
 Route::post('bookings/{booking}/services', [BookingServiceController::class, 'store'])->name('bookings.services.store');
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
     Route::get('rooms/available', [RoomController::class, 'available'])->name('admin.rooms.available');
@@ -44,16 +53,15 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
     Route::get('rooms/available', [RoomController::class, 'available'])->name('rooms.available');
     Route::get('rooms/booked', [RoomController::class, 'booked'])->name('rooms.booked');
 
-    // Bookings
     Route::resource('bookings', BookingController::class);
 
-    // Payments
+
     Route::resource('payments', PaymentController::class);
 
-    // Revenue
+
     Route::get('revenue', [RevenueController::class, 'index'])->name('revenue.index');
 
-    // Users
+
     Route::resource('users', UserController::class);
     Route::get('/admin/rooms/available', [RoomController::class, 'available'])->name('admin.rooms.available');
 

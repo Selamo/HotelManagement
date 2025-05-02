@@ -10,7 +10,7 @@
 <body class="bg-gray-100 text-gray-800">
 
     <div class="max-w-md mx-auto mt-10 bg-white p-6 rounded-md shadow-md">
-        <h2 class="text-2xl font-bold text-center mb-6">Register Admin</h2>
+        <h2 class="text-2xl font-bold text-center mb-6">Register User</h2>
 
         @if ($errors->any())
             <div class="bg-red-400 text-white p-2 mb-4 rounded">
@@ -62,4 +62,4 @@
     </div>
 
 </body>
-</html>  
+</html>

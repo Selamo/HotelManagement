@@ -13,15 +13,15 @@ class AdminAuthController extends Controller
     // Show the admin login form
     public function showLoginForm()
     {
-        return view('auth.admin-login'); // Ensure this view exists
+        return view('auth.admin-login');
     }
 
     public function index()
     {
-        return view('admin.dashboard'); // Ensure this view exists
+        return view('admin.dashboard');
     }
 
-    // Handle the login request
+
     public function login(Request $request)
     {
         // Validate the login request
@@ -33,12 +33,15 @@ class AdminAuthController extends Controller
         // Attempt to log the user in
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // Check if the user is an admin
-            if (Auth::user()->is_admin) {
-                return redirect()->intended('/admin/dashboard'); // Redirect to admin dashboard
-            } else {
-                Auth::logout(); // Log out if not an admin
-                return redirect()->back()->with('error', 'You are not authorized to access this area.');
-            }
+            // $user = User::Where('role','admin');
+
+            // if (Auth::user()->role === 'admin') {
+            //     return view('dashboard.index');
+            // } else {
+            //     Auth::logout();
+            //     return redirect()->back()->with('error', 'You are not authorized to access this area.');
+            // }
+            return redirect('/dashboard');
         }
 
         // If login fails
@@ -49,9 +52,9 @@ class AdminAuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/admin/login'); // Redirect to login after logout
+        return redirect('/admin/login');
     }
-    // Show the admin registration form
+
 public function showRegistrationForm()
 {
     return view('auth.admin-register'); // Ensure this view has been created
@@ -79,14 +82,12 @@ public function register(Request $request)
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password), // Hash the password
+            'password' => bcrypt($request->password),
             'role' => $request->role,
         ]);
 
-        // Optionally log in the user
-        Auth::login($user); // Only if you want to log them in immediately
+        Auth::login($user);
 
-        // Redirect to the admin dashboard or back to the login page with success message
-        return redirect()->intended('/admin/dashboard'); // Change if you decide to log out users after registration
+        return redirect()->intended('/dashboard');
     }
 }
