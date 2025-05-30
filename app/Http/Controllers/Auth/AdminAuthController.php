@@ -44,11 +44,11 @@ class AdminAuthController extends Controller
             return redirect('/dashboard');
         }
 
-        // If login fails
+       
         return redirect()->back()->with('error', 'Invalid credentials.');
     }
 
-    // Handle admin logout
+
     public function logout()
     {
         Auth::logout();
@@ -57,12 +57,12 @@ class AdminAuthController extends Controller
 
 public function showRegistrationForm()
 {
-    return view('auth.admin-register'); // Ensure this view has been created
+    return view('auth.admin-register');
 }
 
-// Handle the registration request
+
 public function register(Request $request)
-{   // Validate the registration request
+{
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

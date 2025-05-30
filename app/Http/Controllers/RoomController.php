@@ -24,6 +24,7 @@ class RoomController extends Controller
             'room_number' => 'required|unique:rooms',
             'type' => 'required',
             'price_per_night' => 'required|numeric',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
             'status' => 'required|in:available,booked,maintenance',
         ]);
 
